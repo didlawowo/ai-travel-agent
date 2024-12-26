@@ -82,7 +82,7 @@ def render_ui():
         placeholder='Type your travel query here...',
     )
     st.markdown('</div>', unsafe_allow_html=True)
-    st.sidebar.image('/Users/Nir.Bar/Documents/demos/genai/langgraph/reflection-agent/images/ai-travel.png', caption='AI Travel Assistant')
+    st.sidebar.image('images/ai-travel.png', caption='AI Travel Assistant')
 
     return user_input
 
