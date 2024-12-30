@@ -1,35 +1,43 @@
-import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
 
-// Lecture du fichier .env
-dotenv.config();
+import type { PlaywrightTestConfig } from '@playwright/test';
 
-const config = defineConfig({
-    testDir: './tests',
-    timeout: 30 * 1000,
-    expect: {
-        timeout: 5000
-    },
-    fullyParallel: true,
-    forbidOnly: !!process.env.CI,
-    retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
-    reporter: 'html',
+const config: PlaywrightTestConfig = {
+    // Nous utilisons Chromium par défaut car c'est le navigateur le plus stable pour le scraping
     use: {
-        actionTimeout: 0,
-        baseURL: process.env.BASE_URL || 'http://127.0.0.1:5000',
-        trace: 'on-first-retry',
-        video: 'on-first-retry',
+        // Utilisation de Chromium headless par défaut
+        browserName: 'chromium',
+        headless: true,
+
+        // Configuration de la viewport
+        viewport: { width: 1920, height: 1080 },
+
+        // Timeout pour les actions
+        actionTimeout: 30000,
+
+        // Configuration des screenshots
+        screenshot: 'only-on-failure',
+
+        // Ignorer les erreurs HTTPS
+        ignoreHTTPSErrors: true,
     },
 
-    projects: [
-        {
-            name: 'chromium',
-            use: { ...devices['Desktop Chrome'] },
-        }
-    ],
+    // Configuration des timeouts globaux
+    timeout: 60000,
+    expect: {
+        timeout: 10000,
+    },
 
-    outputDir: 'test-results/',
-});
+    // Un seul worker pour éviter d'être bloqué par SNCF
+    workers: 1,
+
+    // Dossier de sortie des reports
+    outputDir: 'test-results',
+
+    // Reporter pour avoir de beaux logs
+    reporter: [
+        ['list'],
+        ['html', { open: 'never' }]
+    ],
+};
 
 export default config;
