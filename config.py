@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from agents.tools.flights_finder import flights_finder
 from agents.tools.hotels_finder import hotels_finder
 from agents.tools.trains_finder import trains_finder
-from agents.tools.job_finder import jobs_finder
+from agents.tools.jobs_finder import jobs_finder
 
 
 @dataclass
@@ -15,8 +15,6 @@ class AgentConfig:
         self.model = "gpt-4o"
         self.temperature = 0.1
         self.max_results = 5
-        self.required_skills = []
-        self.remote_options = ["REMOTE", "HYBRID", "ON-SITE"]
         self.preferences = []
 
     model: str = "gpt-4o"
@@ -31,7 +29,25 @@ class AgentConfig:
             self.preferences = []
 
 
-TOOLS = [flights_finder, hotels_finder, trains_finder, jobs_finder]
+@dataclass
+class AgentJobConfig:
+    """Configuration pour l'agent de recherche d'emploi"""
+
+    def __init__(self):
+        self.model = "gpt-4"
+        self.temperature = 0.7
+        self.max_results = 10
+        self.required_skills = []
+        self.remote_options = ["REMOTE", "HYBRID"]
+
+    def __post_init__(self):
+        if self.preferences is None:
+            self.preferences = []
+
+
+TOOLS = [flights_finder, hotels_finder, trains_finder]
+
+TOOLS_JOB = [jobs_finder]
 
 # Search Configuration
 SEARCH_CONFIG = {
@@ -50,8 +66,6 @@ LOCATION_MAPPING = {
     "Lyon": "Auvergne-Rhône-Alpes",
 }
 
-# Posted time mapping
-TIME_FILTERS = {"DAY": "r86400", "WEEK": "r604800", "MONTH": "r2592000"}
 
 # Skills Configuration
 SKILLS = {

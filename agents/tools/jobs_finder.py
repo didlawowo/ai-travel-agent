@@ -4,7 +4,10 @@ from langchain.pydantic_v1 import BaseModel, Field
 from langchain_core.tools import tool
 import serpapi
 from loguru import logger
-from config import JOB_TYPES, TIME_FILTERS
+
+JOB_TYPES = {"REMOTE": "remote", "HYBRID": "hybrid", "ON-SITE": "on-site"}
+# Posted time mapping
+TIME_FILTERS = {"DAY": "r86400", "WEEK": "r604800", "MONTH": "r2592000"}
 
 
 class JobSearchInput(BaseModel):
@@ -97,7 +100,7 @@ def jobs_finder(params: JobSearchInput):
         # Prepare response
         response = {
             "status": "success",
-            "jobs": jobs[:5],  # Limiting to 5 results
+            "jobs": jobs[:10],
             "total_found": len(jobs),
             "search_parameters": {
                 "keywords": params.keywords,

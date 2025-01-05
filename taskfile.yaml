@@ -1,10 +1,10 @@
 version: '3'
 
 tasks:
-  run-crawler:
-    desc: Run the crawler
+  run:
+    desc: Run the streamlit agent
     cmds:
-    - python stock.py
+    - streamlit run search-job.py
 
   build:
     desc: Build Docker images
