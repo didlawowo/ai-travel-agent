@@ -1,0 +1,42 @@
+version: '3'
+
+tasks:
+  run-crawler:
+    desc: Run the crawler
+    cmds:
+    - python stock.py
+
+  build:
+    desc: Build Docker images
+    cmds:
+    - docker-compose build
+
+  start:
+    desc: Run Docker containers
+    cmds:
+    - docker-compose up -d
+
+  push:
+    desc: Push Docker images
+    cmds:
+    - docker-compose push
+
+  stop:
+    desc: Stop Docker containers
+    cmds:
+    - docker-compose stop
+
+  destroy:
+    desc: Stop and remove Docker containers, networks, and volumes
+    cmds:
+    - docker-compose down -v
+
+  logs:
+    desc: Logs Docker
+    cmds:
+    - docker-compose logs -f
+
+  default:
+    desc: Display available tasks
+    cmds:
+    - task --list
